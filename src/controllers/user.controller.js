@@ -3,33 +3,33 @@ import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from  '../models/user.model.js'
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
+// import { upload } from "../middlewares/multer.middleware.js";
 
 
 
 const registerUser =  asyncHandler(  async (req, res) =>{
-    // get user details from frontend 
-    // validation
-    // check if user already  exists - email
-    // check for images, check for avatar
-    // upload them to cloudinary
-    // create user object - create entry in db
-    // remove password and refresh token field from response
-    // check for user creation
-    //  send response back with status code and message
 
 
-    // if (!req.body){
-    //     return res.status(400).json(
-    //         new ApiResponse(400, "req body is empty")
-    //     );
-    //     // new ApiError("req body is empty", 400)
-    // }
-    // console.log(req)
+    // // get user details from frontend 
+    // // validation
+    // // check if user already  exists - email
+    // // check for images, check for avatar
+    // // upload them to cloudinary
+    // // create user object - create entry in db
+    // // remove password and refresh token field from response
+    // // check for user creation
+    // //  send response back with status code and message
+
+    
 
     const { fullName, email, username, password } = req.body
     
-    console.log(req.body);
-    console.log(fullName);
+    // console.log(req.body);
+    // console.log(fullName);
+
+    // return res.status(201).json({
+    //     success: true,
+    // })
 
     if(
         [fullName , email ,username, password].some((field) => field?.trim() === "")
@@ -45,16 +45,17 @@ const registerUser =  asyncHandler(  async (req, res) =>{
         throw new ApiError(409, "Email or Username has already been used");
     }
 
+    console.log(req.body);
 
     const avatarLocalPath = req.files?.avatar[0]?.path;
     // const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
-    // let coverImageLocalPath;
-    // if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
-    //     coverImageLocalPath = req.files.coverImage[0].path
-    // }
+    let coverImageLocalPath;
+    if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+        coverImageLocalPath = req.files.coverImage[0].path
+    }
 
-    // console.log(avatarLocalPath);
+    // // console.log(avatarLocalPath);
 
     if(!avatarLocalPath){
         throw new ApiError(400, "Avatar is missing")
